@@ -1,0 +1,123 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class SelectStatementExample {
+    public static void main(String[] args) {
+        System.out.println("Inside the Main function");
+        String url = "jdbc:mysql://localhost:3306/javaprac";
+        String dusername = "root";
+        String dpassword = "";
+        Connection connection = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            connection = DriverManager.getConnection(url, dusername, dpassword);
+            stmt = connection.createStatement();
+
+            // Insert data
+            insertData(connection);
+
+            // Delete data (assuming user with ID 4 exists)
+            deleteData(connection, 4);
+
+            // View remaining data
+            rs = stmt.executeQuery("select id, name, email, country, password from users");
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                String email = rs.getString("email");
+                String country = rs.getString("country");
+                String password = rs.getString("password");
+                System.out.println(id + "," + name + "," + email + "," + country + "," + password);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("An error occurred while connecting MySQL database");
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Finally Done, Phew!");
+        }
+    }
+
+    public static void insertData(Connection connection) {
+        String insertQuery = "INSERT INTO users (name, email, country, password) VALUES (?, ?, ?, ?)";
+        PreparedStatement pstmt = null;
+
+        try {
+            pstmt = connection.prepareStatement(insertQuery);
+
+            // Set values for the prepared statement
+            pstmt.setString(1, "Ram");
+            pstmt.setString(2, "ram@gmail.com");
+            pstmt.setString(3, "Nepal");
+            pstmt.setString(4, "ramu");
+
+            // Execute the insert query
+            int rowsInserted = pstmt.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("Data inserted successfully!");
+            }
+        } catch (SQLException e) {
+            System.out.println("An error occurred while inserting data into the database");
+            e.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void deleteData(Connection connection, int userId) {
+        String deleteQuery = "DELETE FROM users WHERE id = ?";
+        PreparedStatement pstmt = null;
+
+        try {
+            pstmt = connection.prepareStatement(deleteQuery);
+
+            // Set the user ID for the prepared statement
+            pstmt.setInt(1, userId);
+
+            // Execute the delete query
+            int rowsDeleted = pstmt.executeUpdate();
+            if (rowsDeleted > 0) {
+                System.out.println("Data deleted successfully!");
+            } else {
+                System.out.println("No data found with the specified ID.");
+            }
+        } catch (SQLException e) {
+            System.out.println("An error occurred while deleting data from the database");
+            e.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
