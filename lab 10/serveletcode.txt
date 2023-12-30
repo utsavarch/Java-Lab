@@ -1,0 +1,96 @@
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+@WebServlet("/HelloServlet")
+public class HelloServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    public HelloServlet() {
+        // TODO Auto-generated constructor stub
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        PrintWriter pw = response.getWriter();
+        String name = request.getParameter("tname");
+        int id = Integer.parseInt(request.getParameter("tid"));
+        String email = request.getParameter("temail");
+        String country = request.getParameter("tcountry");
+
+        try {
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaprac", "root", "");
+            insertRecord(con, id, name, email, country);
+            displayRecords(con, pw, request);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        doGet(request, response);
+    }
+
+    protected void insertRecord(Connection con, int id, String name, String email, String country) throws Exception {
+        PreparedStatement stmt = con.prepareStatement("insert into users values(?,?,?,?)");
+        stmt.setInt(1, id);
+        stmt.setString(2, name);
+        stmt.setString(3, email);
+        stmt.setString(4, country);
+        int i = stmt.executeUpdate();
+        System.out.println(i + " records inserted");
+    }
+
+    protected void displayRecords(Connection con, PrintWriter pw, HttpServletRequest request) throws SQLException {
+        pw.println("<h1>Hello, records in the database are listed below: </h1>");
+        String sql = "select id, Name, Email, Country from users";
+        PreparedStatement stmt = con.prepareStatement(sql);
+        ResultSet rs = stmt.executeQuery();
+
+        if (!rs.next()) {
+            pw.println("No records found in the table.");
+        } else {
+            pw.println("<table border='1'>");
+            pw.println("<tr><th>ID</th><th>Name</th><th>Email</th><th>Country</th></tr>");
+
+            do {
+                pw.println("<tr>");
+                pw.println("<td>" + rs.getString(1) + "</td>");
+                pw.println("<td>" + rs.getString(2) + "</td>");
+                pw.println("<td>" + rs.getString(3) + "</td>");
+                pw.println("<td>" + rs.getString(4) + "</td>");
+                pw.println("</tr>");
+            } while (rs.next());
+
+            pw.println("</table>");
+
+            // Display checkbox below the table
+            String displayCheckbox = request.getParameter("displayCheckbox");
+            if (displayCheckbox != null && displayCheckbox.equals("on")) {
+                pw.println("<p>Checkbox is selected!</p>");
+            } else {
+                pw.println("<p>Checkbox is not selected.</p>");
+            }
+
+            // Display radio option below the table
+            String radioOption = request.getParameter("radioOption");
+            if (radioOption != null) {
+                pw.println("<p>Selected Radio Option: " + radioOption + "</p>");
+            } else {
+                pw.println("<p>No Radio Option selected.</p>");
+            }
+        }
+    }
+}
