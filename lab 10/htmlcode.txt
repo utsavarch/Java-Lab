@@ -5,19 +5,20 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form method="post" action="HelloServlet">
-
-<pre>
-Enter id: <input type="text" name="tid">	
-Enter your Name: <input type="text" name="tname">
-Enter your Email:<input type="email" name="temail">
-Enter your Country:<input type="text" name="tcountry">
-Display Checkbox: <input type="checkbox" name="displayCheckbox">
-Radio Options: 
-  <input type="radio" name="radioOption" value="Java"> Java
-  <input type="radio" name="radioOption" value="JavaScript"> JavaScript
-<input type="submit">   <input type="reset">
-</pre>
-</form>
+    <form method="post" action="HelloServlet">
+        <pre>
+            Enter id: <input type="text" name="tid">
+            Enter your Name: <input type="text" name="tname">
+            Enter your Email:<input type="email" name="temail">
+            Enter your Country:<input type="text" name="tcountry">
+            Display Checkbox 1: <input type="checkbox" name="displayCheckbox1">
+            Display Checkbox 2: <input type="checkbox" name="displayCheckbox2">
+            Display Checkbox 3: <input type="checkbox" name="displayCheckbox3">
+            Radio Options: 
+            <input type="radio" name="radioOption" value="Java"> Java
+            <input type="radio" name="radioOption" value="JavaScript"> JavaScript
+            <input type="submit">   <input type="reset">
+        </pre>
+    </form>
 </body>
 </html>

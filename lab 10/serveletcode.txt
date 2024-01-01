@@ -76,12 +76,14 @@ public class HelloServlet extends HttpServlet {
 
             pw.println("</table>");
 
-            // Display checkbox below the table
-            String displayCheckbox = request.getParameter("displayCheckbox");
-            if (displayCheckbox != null && displayCheckbox.equals("on")) {
-                pw.println("<p>Checkbox is selected!</p>");
-            } else {
-                pw.println("<p>Checkbox is not selected.</p>");
+            // Display checkboxes below the table
+            for (int i = 1; i <= 3; i++) {
+                String checkboxName = "displayCheckbox" + i;
+                String checkboxValue = request.getParameter(checkboxName);
+
+                if (checkboxValue != null && checkboxValue.equals("on")) {
+                    pw.println("<p>Checkbox " + i + " is selected!</p>");
+                }
             }
 
             // Display radio option below the table
