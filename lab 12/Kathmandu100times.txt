@@ -1,0 +1,51 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<%@ page import="java.sql.*"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Test JDBC</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 50%;
+            margin: 20px;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>City</th>
+            </tr>
+        </thead>
+        <tbody>
+            <%
+                for (int i = 0; i < 100; i++) {
+                    if (i % 10 == 0) {
+            %>
+            </tr><tr>
+            <%
+                    }
+            %>
+            <td>Kathmandu</td>
+            <%
+                }
+            %>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

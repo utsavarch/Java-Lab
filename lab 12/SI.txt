@@ -1,0 +1,18 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<%@ page import="java.sql.*"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Simple Interest Calculator</title>
+</head>
+<body>
+    <form action="calculateInterest.jsp" method="post">
+        Enter Principal: <input type="number" name="principal" required><br>
+        Enter Time: <input type="number" name="time" required><br>
+        Enter Rate: <input type="number" name="rate" required><br>
+        <input type="submit" value="Calculate">
+    </form>
+</body>
+</html>

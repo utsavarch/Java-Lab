@@ -1,0 +1,56 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<%@ page import="java.sql.*"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Test JDBC</title>
+</head>
+<body>
+    <%
+        String url = "jdbc:mysql://localhost:3306/javaprac";
+        String dusername = "root";
+        String dpassword = "";
+
+        try {
+            Connection con = DriverManager.getConnection(url, dusername, dpassword);
+            String sql = "select id, name, email from Users";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            if (!rs.next()) {
+                out.println("No records found in the table.");
+            } else {
+    %>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            <%
+                do {
+            %>
+            <tr>
+                <td><%= rs.getString("id") %></td>
+                <td><%= rs.getString("name") %></td>
+                <td><%= rs.getString("email") %></td>
+            </tr>
+            <%
+                } while (rs.next());
+            %>
+        </tbody>
+    </table>
+    <%
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            out.println(e);
+        }
+    %>
+</body>
+</html>

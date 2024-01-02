@@ -1,0 +1,32 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<%@ page import="java.sql.*"%>
+<%@ page import="java.text.DecimalFormat"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Simple Interest Result</title>
+</head>
+<body>
+    <%
+        // Retrieve user inputs
+        double principal = Double.parseDouble(request.getParameter("principal"));
+        double time = Double.parseDouble(request.getParameter("time"));
+        double rate = Double.parseDouble(request.getParameter("rate"));
+
+        // Calculate simple interest
+        double simpleInterest = (principal * rate * time) / 100;
+
+        // Format the result
+        DecimalFormat df = new DecimalFormat("#.##");
+        String formattedInterest = df.format(simpleInterest);
+    %>
+
+    <h2>Simple Interest Calculation Result:</h2>
+    <p>Principal: <%= principal %></p>
+    <p>Time: <%= time %> years</p>
+    <p>Rate: <%= rate %> %</p>
+    <p>Simple Interest: <%= formattedInterest %></p>
+</body>
+</html>

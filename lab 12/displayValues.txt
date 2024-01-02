@@ -1,0 +1,22 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Display Student Information</title>
+</head>
+<body>
+    <h2>Student Information:</h2>
+
+    <%
+        // Retrieve form parameters
+        String name = request.getParameter("name");
+        String rollNumber = request.getParameter("rollNumber");
+        String address = request.getParameter("address");
+    %>
+
+    <p><strong>Name:</strong> <%= name %></p>
+    <p><strong>Roll Number:</strong> <%= rollNumber %></p>
+    <p><strong>Address:</strong> <%= address %></p>
+</body>
+</html>
